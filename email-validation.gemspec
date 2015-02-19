@@ -16,5 +16,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'json', '1.7.7'
   s.add_dependency 'protected_attributes'
   s.add_dependency 'workflow'
+  s.add_development_dependency 'sqlite3'
+  s.add_development_dependency 'shoulda-matchers'
+  s.add_development_dependency 'rspec'
 end
 

@@ -1,8 +1,6 @@
-require 'sqlite3'
-puts SQLite3
-
 require 'email-validation'
-
+require 'sqlite3'
+require 'shoulda/matchers'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
 
