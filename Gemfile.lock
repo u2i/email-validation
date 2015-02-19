@@ -1,11 +1,12 @@
 PATH
   remote: .
   specs:
-    email-validation (0.1.4)
+    email-validation (1.0.1)
       activerecord (>= 3.0)
       exception_notification
       json (= 1.7.7)
       kickbox
+      workflow
 
 GEM
   specs:
@@ -59,6 +60,7 @@ GEM
     thread_safe (0.3.4)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    workflow (1.2.0)
 
 PLATFORMS
   ruby

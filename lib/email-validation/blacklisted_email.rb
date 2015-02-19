@@ -1,5 +1,8 @@
+require 'active_record'
+require 'workflow'
+
 module EmailValidation
-  class BlacklistedEmail < ActiveRecord::Base
+  class BlacklistedEmail < ::ActiveRecord::Base
     self.table_name = 'blacklisted_emails'
 
     include Workflow

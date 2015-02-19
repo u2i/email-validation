@@ -1,6 +1,6 @@
 require 'exception_notification'
-require 'resolv_email_validator'
-require 'kickbox_email_validator'
+require 'email-validation/resolv_email_validator'
+require 'email-validation/kickbox_email_validator'
 
 module EmailValidation
   class Strategy

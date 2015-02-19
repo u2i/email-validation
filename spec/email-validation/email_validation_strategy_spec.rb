@@ -1,4 +1,4 @@
-require 'email_validation_strategy'
+require 'email-validation'
 
 describe EmailValidationStrategy do
   describe "#verify_email" do
