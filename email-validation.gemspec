@@ -14,5 +14,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'kickbox'
   s.add_dependency 'activerecord','>= 3.0'
   s.add_dependency 'json', '1.7.7'
+  s.add_dependency 'protected_attributes'
   s.add_dependency 'workflow'
 end
+

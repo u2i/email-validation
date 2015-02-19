@@ -1,4 +1,5 @@
 require 'active_record'
+require 'protected_attributes'
 require 'workflow'
 
 module EmailValidation
