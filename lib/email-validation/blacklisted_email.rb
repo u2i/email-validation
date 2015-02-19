@@ -21,9 +21,6 @@ module EmailValidation
       state :unsubscribe
     end
 
-    def self.parse_email_address email
-      email.gsub(/\+.*@/, "@")
-    end
 
     def self.exists? email
       email = BlacklistedEmail.parse_email_address(email.to_s)
@@ -41,6 +38,10 @@ module EmailValidation
     end
 
     protected
+
+    def self.parse_email_address email
+      email.gsub(/\+.*@/, "@")
+    end
 
     def parse_email
       self.email = BlacklistedEmail.parse_email_address(self.email)
