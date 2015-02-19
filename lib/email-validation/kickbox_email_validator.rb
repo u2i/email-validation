@@ -21,7 +21,7 @@ module EmailValidation
       when 200
         body = response.body
         return true, "" if body["result"] == "valid"
-        return false, "The email address you have entered (#{email}) is incorrect." if body["result"] != "valid"
+        return false, EmailValidation::incorrect_email_message(email) if body["result"] != "valid"
       when 403
         raise EmailValidationApiForbidden.new
       when 500
