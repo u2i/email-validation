@@ -53,6 +53,28 @@ module EmailValidation
         end
 
       end
+
+      context "blacklisting emails" do
+        context "when the email is invalid" do
+          it "blacklists the email" do
+            expect_any_instance_of(KickboxEmailValidator).to receive(:validate_email).with(email).and_return false
+
+            expect(BlacklistedEmail).to receive(:create).with(email: email)
+
+            subject.verify_email(email, api_key)
+          end
+        end
+
+        context "when the email is valid" do
+          it "doesn't blacklist the email" do
+            expect_any_instance_of(KickboxEmailValidator).to receive(:validate_email).with(email).and_return true
+
+            expect(BlacklistedEmail).not_to receive(:create).with(email: email)
+
+            subject.verify_email(email, api_key)
+          end
+        end
+      end
     end
   end
 end

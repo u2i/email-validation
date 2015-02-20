@@ -9,7 +9,7 @@ module EmailValidation
       mx_domain = email.split('@').last.to_s.strip
       mail_servers = Resolv::DNS.open.getresources(mx_domain, Resolv::DNS::Resource::IN::MX)
 
-      return false, EmailValidation::incorrect_email_message(email) if !mail_servers.nil? && mail_servers.empty?
+      return false if !mail_servers.nil? && mail_servers.empty?
 
       if MAJOR_EMAIL_PROVIDERS.include?(mx_domain)
         begin
@@ -25,7 +25,7 @@ module EmailValidation
             socket.send("RCPT TO: <#{params["user"]["email"]}>\r\n",0)
             smtp_response = socket.gets
             if !smtp_response.starts_with?("250") && !smtp_response.starts_with?("451") && !smtp_response.starts_with?("452")
-              return false, EmailValidation::incorrect_email_message(email)
+              return false
             end
           end
         rescue => e
@@ -35,7 +35,7 @@ module EmailValidation
         end
       end
 
-      return true, ""
+      return true
     end
   end
 end

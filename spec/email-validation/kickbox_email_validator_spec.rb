@@ -32,8 +32,8 @@ module EmailValidation
 
       context "For a successful response" do
         context "when the email is valid" do
-          it "returns [true, '']" do
-            expect( subject.validate_email(email) ).to eq( [true, ""] )
+          it "returns true" do
+            expect(subject.validate_email(email)).to eq true
           end
         end
 
@@ -57,8 +57,8 @@ module EmailValidation
             })
           end
 
-          it "returns false and an error message" do
-            expect( subject.validate_email(email) ).to eq( [false, "The email address you have entered (#{email}) is incorrect."] )
+          it "returns false" do
+            expect(subject.validate_email(email)).to eq false
           end
         end
       end

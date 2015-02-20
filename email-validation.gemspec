@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'email-validation'
-  s.version     = '1.1.0'
+  s.version     = '1.2.0'
   s.date        = '2014-10-20'
   s.summary     = "Scholastic Trade Ruby gem for email validation"
   s.description = "Scholastic Trade Ruby gem for email validation"

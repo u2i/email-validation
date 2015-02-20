@@ -8,18 +8,24 @@ module EmailValidation
       begin
 
         if BlacklistedEmail.exists?(email)
-          return false, EmailValidation::incorrect_email_message(email)
+          valid_email = false
         else
-          return KickboxEmailValidator.new(api_key).validate_email(email)
+          valid_email = KickboxEmailValidator.new(api_key).validate_email(email)
         end
 
       rescue EmailValidationApiForbidden, EmailValidationApiError
-        return ResolvEmailValidator.new.validate_email email
+        valid_email = ResolvEmailValidator.new.validate_email email
 
       rescue UnexpectedEmailValidationApiResponse => e
         ExceptionNotifier.notify_exception(e)
-        return ResolvEmailValidator.new.validate_email email
+        valid_email = ResolvEmailValidator.new.validate_email email
       end
+
+      BlacklistedEmail.create(email: email) unless valid_email
+
+      msg = valid_email ? "" : EmailValidation::incorrect_email_message(email)
+
+      return valid_email, msg
     end
   end
 end
