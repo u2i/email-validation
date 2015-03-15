@@ -1,11 +1,10 @@
 PATH
   remote: .
   specs:
-    email-validation (1.1.0)
+    email-validation (1.2.0)
       activerecord (>= 3.0)
       exception_notification
-      json (= 1.7.7)
-      kickbox
+      kickbox-1.0.5
       protected_attributes
       workflow
 
@@ -59,10 +58,10 @@ GEM
     globalid (0.3.3)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
-    json (1.7.7)
-    kickbox (1.0.4)
+    json (1.8.2)
+    kickbox-1.0.5 (1.0.5)
       faraday (~> 0.8.8)
-      json (~> 1.7.7)
+      json (>= 1.8.1)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -84,7 +83,7 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-html-sanitizer (1.0.1)
+    rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
