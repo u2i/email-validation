@@ -19,8 +19,8 @@ module EmailValidation
     workflow do
       state :bounce
       state :unsubscribe
+      state :admin
     end
-
 
     def self.exists? email
       email = BlacklistedEmail.parse_email_address(email.to_s)
