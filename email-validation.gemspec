@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
 
   s.add_dependency 'exception_notification'
-  s.add_dependency 'kickbox-1.0.5'
+  s.add_dependency 'kickbox'
   s.add_dependency 'activerecord','>= 3.0'
   #s.add_dependency 'json', '~> 1.8.1'
   s.add_dependency 'protected_attributes'
@@ -20,4 +20,3 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'rspec'
 end
-
