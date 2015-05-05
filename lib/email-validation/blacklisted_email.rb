@@ -22,6 +22,10 @@ module EmailValidation
       state :admin
     end
 
+    ORIGIN_ADMIN = 'admin'
+    ORIGIN_BOUNCE = 'bounce'
+    ORIGIN_UNSUBSCRIBE = 'unsubscribe'
+
     def self.exists? email
       email = BlacklistedEmail.parse_email_address(email.to_s)
       BlacklistedEmail.where(email: email).exists?
@@ -29,12 +33,12 @@ module EmailValidation
 
     def self.bounced? email
       email = BlacklistedEmail.parse_email_address(email.to_s)
-      BlacklistedEmail.where(email: email, origin: "bounce").exists?
+      BlacklistedEmail.where(email: email, origin: ORIGIN_BOUNCE).exists?
     end
 
     def self.unsubscribed? email
       email = BlacklistedEmail.parse_email_address(email.to_s)
-      BlacklistedEmail.where(email: email, origin: "unsubscribe").exists?
+      BlacklistedEmail.where(email: email, origin: ORIGIN_UNSUBSCRIBE).exists?
     end
 
     protected
