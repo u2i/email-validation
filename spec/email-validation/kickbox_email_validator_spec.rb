@@ -8,7 +8,7 @@ module EmailValidation
       let(:verify_response) do
         double(code: 200,
                body: {
-          "result" => "valid",
+          "result" => "deliverable",
           "role" => false,
           "free" => false,
           "disposable" => false,

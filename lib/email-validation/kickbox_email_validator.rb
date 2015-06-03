@@ -20,8 +20,8 @@ module EmailValidation
       case code
       when 200
         body = response.body
-        return true if body["result"] == "valid"
-        return false if body["result"] != "valid"
+        return true if body["result"] == "deliverable"
+        return false if body["result"] != "deliverable"
       when 403
         raise EmailValidationApiForbidden.new
       when 500
