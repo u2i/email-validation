@@ -1,31 +1,31 @@
-require 'exception_notification'
-require 'email-validation/resolv_email_validator'
-require 'email-validation/kickbox_email_validator'
+require 'email-validation/validators'
 
 module EmailValidation
   class Strategy
-    def verify_email(email, api_key)
-      begin
 
-        if BlacklistedEmail.exists?(email)
-          valid_email = false
-        else
-          valid_email = KickboxEmailValidator.new(api_key).validate_email(email)
+    def verify_email(email)
+      return false, EmailValidation::incorrect_email_message(email) if BlacklistedEmail.exists?(email)
+
+      email_invalid = validation_chain.reduce(false) do |is_invalid, validator|
+        begin
+          is_invalid ||= !validator.validate_email(email)
+        rescue Stoplight::Error::RedLight
+          is_invalid = false
         end
-
-      rescue EmailValidationApiForbidden, EmailValidationApiError
-        valid_email = ResolvEmailValidator.new.validate_email email
-
-      rescue UnexpectedEmailValidationApiResponse => e
-        ExceptionNotifier.notify_exception(e)
-        valid_email = ResolvEmailValidator.new.validate_email email
       end
 
-      BlacklistedEmail.create(email: email) unless valid_email
+      BlacklistedEmail.create(email: email) if email_invalid
 
-      msg = valid_email ? "" : EmailValidation::incorrect_email_message(email)
+      msg = email_invalid ? EmailValidation::incorrect_email_message(email) : ''
 
-      return valid_email, msg
+      return !email_invalid, msg
+    end
+
+    private
+
+    def validation_chain
+      [Validators::KickboxEmailValidator.new(EmailValidation.config.kickbox_api_key),
+       Validators::ResolvEmailValidator.new]
     end
   end
 end
