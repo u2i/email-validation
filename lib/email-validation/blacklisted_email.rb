@@ -5,6 +5,7 @@ require 'workflow'
 module EmailValidation
   class BlacklistedEmail < ::ActiveRecord::Base
     self.table_name = 'blacklisted_emails'
+    scope :bounce_or_admin, -> { where(origin: [ORIGIN_BOUNCE, ORIGIN_ADMIN]) }
 
     include Workflow
     workflow_column :origin
