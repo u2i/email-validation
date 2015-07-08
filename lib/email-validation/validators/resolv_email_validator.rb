@@ -30,7 +30,7 @@ module EmailValidation
               end
             end
           rescue => e
-            logger.info e.inspect
+            # I'm not sure what we can do here...
           ensure
             socket.close
           end

@@ -5,18 +5,19 @@ module EmailValidation
   module Validators
     class Base
       def validate_email(email)
-        raised_error = false
+        success = true
 
         light = Stoplight(self.class.to_s) { perform_validation(email) }
           .with_threshold(EmailValidation.config.stoplight_threshold)
           .with_timeout(EmailValidation.config.timeout)
           .with_fallback do |e|
-            raised_error = true
+            success = false
             EmailValidation.config.after_error_hook.call(e)
           end
 
         result = light.run
-        raised_error ? true : result
+        result = (success ? result : true)
+        [result, success]
       end
     end
   end
