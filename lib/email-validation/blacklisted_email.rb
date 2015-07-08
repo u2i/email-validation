@@ -23,6 +23,7 @@ module EmailValidation
       state :admin
     end
 
+    ORIGIN_KICKBOX = 'kickbox'
     ORIGIN_ADMIN = 'admin'
     ORIGIN_BOUNCE = 'bounce'
     ORIGIN_UNSUBSCRIBE = 'unsubscribe'

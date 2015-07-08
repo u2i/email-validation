@@ -17,6 +17,7 @@ module EmailValidation
         end
       end
 
+
       validation_result ||= ValidationResult.new(true, true)
 
       BlacklistedEmail.create(email: email, origin: validation_result.reason) unless validation_result.valid?
