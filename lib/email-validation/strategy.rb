@@ -6,19 +6,22 @@ module EmailValidation
     def verify_email(email)
       return false, EmailValidation::incorrect_email_message(email) if BlacklistedEmail.exists?(email)
 
-      email_invalid = validation_chain.reduce(false) do |is_invalid, validator|
+      email_valid = true
+
+      validation_chain.each do |validator|
         begin
-          is_invalid ||= !validator.validate_email(email)
+          email_valid, success = validator.validate_email(email)
+          break if success
         rescue Stoplight::Error::RedLight
-          is_invalid = false
+          next
         end
       end
 
-      BlacklistedEmail.create(email: email) if email_invalid
+      BlacklistedEmail.create(email: email) unless email_valid
 
-      msg = email_invalid ? EmailValidation::incorrect_email_message(email) : ''
+      msg = email_valid ? '' : EmailValidation::incorrect_email_message(email)
 
-      return !email_invalid, msg
+      return email_valid, msg
     end
 
     private

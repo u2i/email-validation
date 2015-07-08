@@ -29,8 +29,8 @@ module EmailValidation
           expect(@exception).to be_a UnexpectedEmailValidationApiResponse
         end
 
-        it 'returns true' do
-          expect(subject.validate_email(email)).to eq true
+        it 'returns [true, false]' do
+          expect(subject.validate_email(email)).to eq [true, false]
         end
       end
 
@@ -44,7 +44,7 @@ module EmailValidation
         subject { AlwaysFalseDummy.new }
 
         it 'returns false' do
-          expect(subject.validate_email(email)).to eq false
+          expect(subject.validate_email(email)).to eq [false, true]
         end
       end
 
@@ -58,7 +58,7 @@ module EmailValidation
         subject { AlwaysTrueDummy.new }
 
         it 'returns true' do
-          expect(subject.validate_email(email)).to eq true
+          expect(subject.validate_email(email)).to eq [true, true]
         end
       end
     end

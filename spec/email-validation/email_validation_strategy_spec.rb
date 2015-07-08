@@ -24,19 +24,34 @@ module EmailValidation
 
         it "uses Kickbox after making sure the email is not blacklisted" do
           expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:perform_validation).with(email).and_return(true)
+          expect_any_instance_of(Validators::ResolvEmailValidator).not_to receive(:perform_validation)
           subject.verify_email(email)
         end
 
-        it "falls back to Resolv when there's an error in Kickbox" do
+        it 'falls back to Resolv when Kickbox throws an error' do
           expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:perform_validation).with(email).and_raise(Validators::EmailValidationApiError)
           expect_any_instance_of(Validators::ResolvEmailValidator).to receive(:perform_validation).with(email).and_return true
 
           subject.verify_email(email)
         end
 
-        it "says the email is valid when Resolv fails" do
+        it "falls back to Resolv when Kickbox has red light" do
+          expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:validate_email).with(email).and_raise(Stoplight::Error::RedLight)
+          expect_any_instance_of(Validators::ResolvEmailValidator).to receive(:perform_validation).with(email).and_return true
+
+          subject.verify_email(email)
+        end
+
+        it 'says the email is valid when Resolv fails' do
           expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:perform_validation).with(email).and_raise(Validators::EmailValidationApiError)
-          expect_any_instance_of(Validators::ResolvEmailValidator).to receive(:perform_validation).with(email).and_return(true)
+          expect_any_instance_of(Validators::ResolvEmailValidator).to receive(:perform_validation).with(email).and_raise(Validators::EmailValidationApiError)
+
+          expect(subject.verify_email(email)).to eq [true, '']
+        end
+
+        it "says the email is valid when Resolv has red light" do
+          expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:validate_email).with(email).and_raise(Stoplight::Error::RedLight)
+          expect_any_instance_of(Validators::ResolvEmailValidator).to receive(:validate_email).with(email).and_raise(Stoplight::Error::RedLight)
 
           subject.verify_email(email)
         end
@@ -47,7 +62,7 @@ module EmailValidation
 
         context "when the email is invalid" do
           it "blacklists the email" do
-            expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:validate_email).with(email).and_return false
+            expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:validate_email).with(email).and_return [false, true]
 
             expect(BlacklistedEmail).to receive(:create).with(email: email)
 
