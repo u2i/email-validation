@@ -4,7 +4,7 @@ module EmailValidation
   class Strategy
 
     def verify_email(email)
-      return false, EmailValidation::incorrect_email_message(email) if BlacklistedEmail.exists?(email)
+      return false, EmailValidation::invalid_email_message if BlacklistedEmail.bounce_or_admin.exists?(email)
 
       validation_result = nil
 
