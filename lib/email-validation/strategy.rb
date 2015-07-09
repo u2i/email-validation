@@ -4,9 +4,9 @@ module EmailValidation
   class Strategy
 
     def verify_email(email)
-      return false, EmailValidation::invalid_email_message if BlacklistedEmail.exists?(email)
+      return false, EmailValidation::invalid_email_message if BlacklistedEmail.bounce_or_admin?(email)
 
-      validation_result = nil
+      validation_result, msg = ValidationResult.new(true, true), ''
 
       validation_chain.each do |validator|
         begin
@@ -17,12 +17,10 @@ module EmailValidation
         end
       end
 
-
-      validation_result ||= ValidationResult.new(true, true)
-
-      BlacklistedEmail.create(email: email, origin: validation_result.reason) unless validation_result.valid?
-
-      msg = validation_result.valid? ? '' : EmailValidation::incorrect_email_message(email)
+      unless validation_result.valid?
+        BlacklistedEmail.create(email: email, origin: validation_result.reason)
+        msg = EmailValidation::could_not_verified_email_message
+      end
 
       return [validation_result.valid?, msg]
     end
