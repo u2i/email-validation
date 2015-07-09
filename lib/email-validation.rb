@@ -3,8 +3,12 @@ require 'email-validation/blacklisted_email'
 require 'email-validation/config'
 
 module EmailValidation
-  def self.incorrect_email_message(email)
-    "The email address you have entered (#{email}) is incorrect."
+  def self.invalid_email_message
+    "Your email address is invalid. Please #{self.contact_link} if you need further assistance."
+  end
+
+  def self.could_not_verified_email_message
+    "Your email address could not be verified. Please #{self.contact_link} if you need further assistance."
   end
 
   class << self
@@ -17,5 +21,9 @@ module EmailValidation
 
   def self.configure
     yield(config)
+  end
+
+  def self.contact_link
+    "<a href='/contact' title='Customer Service'>contact customer service</a>"
   end
 end

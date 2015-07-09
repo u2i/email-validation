@@ -23,4 +23,17 @@ describe EmailValidation do
       expect(EmailValidation.config.kickbox_api_key).to eq 'key-123-456'
     end
   end
+
+  describe "self.invalid_email_message" do
+    it { expect(EmailValidation.invalid_email_message).to match('email address is invalid') }
+  end
+
+  describe "self.could_not_verified_email_message" do
+    it { expect(EmailValidation.could_not_verified_email_message).to match('address could not be verified') }
+  end
+
+  describe "self.contact_link" do
+    it { expect(EmailValidation.contact_link).to match("href='/contact'") }
+  end
+
 end
