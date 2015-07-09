@@ -18,7 +18,9 @@ module EmailValidation
         case code
         when 200
           body = response.body
-          return EMAIL_VALID_RESPONSES.include?(body['result'])
+          email_valid = EMAIL_VALID_RESPONSES.include?(body['result'])
+          reason = email_valid ? '' : "Kickbox validation failed: #{body['reason']}"
+          return ::EmailValidation::ValidationResult.new(email_valid, true, reason)
         when 403
           raise EmailValidationApiForbidden.new
         when 500

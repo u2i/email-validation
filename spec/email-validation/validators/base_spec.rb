@@ -29,36 +29,39 @@ module EmailValidation
           expect(@exception).to be_a UnexpectedEmailValidationApiResponse
         end
 
-        it 'returns [true, false]' do
-          expect(subject.validate_email(email)).to eq [true, false]
+        it 'returns valid: true, success: false' do
+          expect(subject.validate_email(email).valid?).to eq true
+          expect(subject.validate_email(email).success).to eq false
         end
       end
 
       context 'when a validator returns false' do
         class AlwaysFalseDummy < Base
           def perform_validation(email)
-            false
+            ValidationResult.new(false, true)
           end
         end
 
         subject { AlwaysFalseDummy.new }
 
-        it 'returns false' do
-          expect(subject.validate_email(email)).to eq [false, true]
+        it 'returns valid: false, success: true' do
+          expect(subject.validate_email(email).valid?).to eq false
+          expect(subject.validate_email(email).success).to eq true
         end
       end
 
       context 'when a validator returns true' do
         class AlwaysTrueDummy < Base
           def perform_validation(email)
-            true
+            ValidationResult.new(true, true)
           end
         end
-
+        
         subject { AlwaysTrueDummy.new }
 
-        it 'returns true' do
-          expect(subject.validate_email(email)).to eq [true, true]
+        it 'returns valid: true, success: true' do
+          expect(subject.validate_email(email).valid?).to eq true
+          expect(subject.validate_email(email).success).to eq true
         end
       end
     end

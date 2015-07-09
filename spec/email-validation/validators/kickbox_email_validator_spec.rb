@@ -35,7 +35,9 @@ module EmailValidation
             let(:result) { 'deliverable' }
 
             it "returns true" do
-              expect(subject.perform_validation(email)).to eq true
+              expect(subject.perform_validation(email).valid?).to eq true
+              expect(subject.perform_validation(email).success).to eq true
+              expect(subject.perform_validation(email).reason).to eq ''
             end
           end
 
@@ -43,7 +45,9 @@ module EmailValidation
             let(:result) { 'risky' }
 
             it "returns true" do
-              expect(subject.perform_validation(email)).to eq true
+              expect(subject.perform_validation(email).valid?).to eq true
+              expect(subject.perform_validation(email).success).to eq true
+              expect(subject.perform_validation(email).reason).to eq ''
             end
           end
 
@@ -51,7 +55,9 @@ module EmailValidation
             let(:result) { 'unknown' }
 
             it "returns true" do
-              expect(subject.perform_validation(email)).to eq true
+              expect(subject.perform_validation(email).valid?).to eq true
+              expect(subject.perform_validation(email).success).to eq true
+              expect(subject.perform_validation(email).reason).to eq ''
             end
           end
 
@@ -76,7 +82,9 @@ module EmailValidation
             end
 
             it "returns false" do
-              expect(subject.perform_validation(email)).to eq false
+              expect(subject.perform_validation(email).valid?).to eq false
+              expect(subject.perform_validation(email).success).to eq true
+              expect(subject.perform_validation(email).reason).to eq "Kickbox validation failed: rejected_email"
             end
           end
         end

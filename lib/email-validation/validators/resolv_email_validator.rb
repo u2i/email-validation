@@ -26,7 +26,7 @@ module EmailValidation
               socket.send("RCPT TO: <#{params["user"]["email"]}>\r\n",0)
               smtp_response = socket.gets
               if !smtp_response.starts_with?("250") && !smtp_response.starts_with?("451") && !smtp_response.starts_with?("452")
-                return false
+                return ::EmailValidation::ValidationResult.new(false, true, 'Resolv validation failed')
               end
             end
           rescue => e
@@ -36,7 +36,7 @@ module EmailValidation
           end
         end
 
-        return true
+        return ::EmailValidation::ValidationResult.new(true, true)
       end
     end
   end

@@ -15,9 +15,8 @@ module EmailValidation
             EmailValidation.config.after_error_hook.call(e)
           end
 
-        result = light.run
-        result = (success ? result : true)
-        [result, success]
+        validation_result = light.run
+        success ? validation_result : ::EmailValidation::ValidationResult.new(true, false)
       end
     end
   end

@@ -1,3 +1,4 @@
+require_relative 'validation_result'
 require_relative 'validators/base'
 require_relative 'validators/kickbox_email_validator'
 require_relative 'validators/resolv_email_validator'

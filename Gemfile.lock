@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    email-validation (3.0.1)
+    email-validation (3.1.0)
       activerecord (>= 3.0)
       kickbox (~> 2.0.0)
       protected_attributes
