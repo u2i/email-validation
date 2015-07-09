@@ -23,14 +23,13 @@ module EmailValidation
       state :admin
     end
 
-    ORIGIN_KICKBOX = 'kickbox'
     ORIGIN_ADMIN = 'admin'
     ORIGIN_BOUNCE = 'bounce'
     ORIGIN_UNSUBSCRIBE = 'unsubscribe'
 
-    def self.exists? email
+    def self.exists_as_bounce_or_admin? email
       email = BlacklistedEmail.parse_email_address(email.to_s)
-      BlacklistedEmail.where(email: email).exists?
+      BlacklistedEmail.where(email: email, origin: [ORIGIN_BOUNCE, ORIGIN_ADMIN]).exists?
     end
 
     def self.bounced? email
