@@ -1,3 +1,6 @@
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
+
 require 'email-validation'
 require 'sqlite3'
 require 'shoulda/matchers'
