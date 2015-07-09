@@ -4,6 +4,8 @@ require 'kickbox'
 module EmailValidation
   module Validators
     class KickboxEmailValidator < Base
+      EMAIL_VALID_RESPONSES = ['deliverable', 'unknown', 'risky']
+
       def initialize(api_key)
         client = Kickbox::Client.new(api_key)
         @kickbox = client.kickbox
@@ -16,7 +18,7 @@ module EmailValidation
         case code
         when 200
           body = response.body
-          return body['result'] == 'deliverable'
+          return EMAIL_VALID_RESPONSES.include?(body['result'])
         when 403
           raise EmailValidationApiForbidden.new
         when 500

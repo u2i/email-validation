@@ -9,7 +9,7 @@ module EmailValidation
         let(:verify_response) do
           double(code: 200,
                  body: {
-            "result" => "deliverable",
+            "result" => result,
             "role" => false,
             "free" => false,
             "disposable" => false,
@@ -23,16 +23,33 @@ module EmailValidation
           })
         end
 
-
         subject { KickboxEmailValidator.new("123-api-key") }
 
         before do
           subject.instance_variable_set(:@kickbox, kickbox_double)
           allow(subject).to receive(:dispatch_request?).and_return(true)
         end
-
+        
         context "For a successful response" do
-          context "when the email is valid" do
+          context "when the email is deliverable" do
+            let(:result) { 'deliverable' }
+
+            it "returns true" do
+              expect(subject.perform_validation(email)).to eq true
+            end
+          end
+
+          context "when the email is risky" do
+            let(:result) { 'risky' }
+
+            it "returns true" do
+              expect(subject.perform_validation(email)).to eq true
+            end
+          end
+
+          context "when the email is unknown" do
+            let(:result) { 'unknown' }
+
             it "returns true" do
               expect(subject.perform_validation(email)).to eq true
             end
@@ -43,7 +60,7 @@ module EmailValidation
             let(:verify_response) do
               double(code: 200,
                      body: {
-                "result" => "invalid",
+                "result" => "undeliverable",
                 "reason" => "rejected_email",
                 "role" => false,
                 "free" => false,
