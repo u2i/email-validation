@@ -1,13 +1,9 @@
 require 'active_record'
 require 'protected_attributes'
-require 'workflow'
 
 module EmailValidation
   class BlacklistedEmail < ::ActiveRecord::Base
     self.table_name = 'blacklisted_emails'
-
-    include Workflow
-    workflow_column :origin
 
     attr_accessible :email, :origin
 
@@ -15,12 +11,6 @@ module EmailValidation
     validates :email, presence: true, uniqueness: true, format: { with: /\A[^\s]+@[^\s]+\z/i }
 
     before_save :parse_email
-
-    workflow do
-      state :bounce
-      state :unsubscribe
-      state :admin
-    end
 
     ORIGIN_ADMIN = 'admin'
     ORIGIN_BOUNCE = 'bounce'
