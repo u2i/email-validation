@@ -13,7 +13,7 @@ module EmailValidation
 
           status, message = subject.verify_email(email)
 
-          expect(message).to eq EmailValidation::Config::INVALID_EMAIL_MESSAGE
+          expect(message).to eq EmailValidation.config.invalid_email_message
           expect(status).to eq false
         end
       end
