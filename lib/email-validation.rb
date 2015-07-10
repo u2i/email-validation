@@ -7,7 +7,7 @@ module EmailValidation
     "Your email address is invalid. Please #{self.contact_link} if you need further assistance."
   end
 
-  def self.could_not_verified_email_message
+  def self.not_verified_email_message
     "Your email address could not be verified. Please #{self.contact_link} if you need further assistance."
   end
 

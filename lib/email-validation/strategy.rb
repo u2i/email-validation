@@ -19,7 +19,7 @@ module EmailValidation
 
       unless validation_result.valid?
         BlacklistedEmail.create(email: email, origin: validation_result.reason)
-        msg = EmailValidation::could_not_verified_email_message
+        msg = EmailValidation::not_verified_email_message
       end
 
       return [validation_result.valid?, msg]

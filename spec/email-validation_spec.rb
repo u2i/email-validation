@@ -28,7 +28,7 @@ describe EmailValidation do
     it { expect(EmailValidation.invalid_email_message).to match('email address is invalid') }
   end
 
-  describe "self.could_not_verified_email_message" do
+  describe "self.not_verified_email_message" do
     it { expect(EmailValidation.could_not_verified_email_message).to match('address could not be verified') }
   end
 
