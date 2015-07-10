@@ -24,16 +24,4 @@ describe EmailValidation do
     end
   end
 
-  describe "self.invalid_email_message" do
-    it { expect(EmailValidation.invalid_email_message).to match('email address is invalid') }
-  end
-
-  describe "self.not_verified_email_message" do
-    it { expect(EmailValidation.could_not_verified_email_message).to match('address could not be verified') }
-  end
-
-  describe "self.contact_link" do
-    it { expect(EmailValidation.contact_link).to match("href='/contact'") }
-  end
-
 end
