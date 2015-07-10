@@ -17,7 +17,7 @@ module EmailValidation
         end
       end
 
-      unless validation_result.valid?
+      if !validation_result.valid?
         BlacklistedEmail.create(email: email, origin: validation_result.reason)
         msg = EmailValidation::Config::NOT_VERIFIED_EMAIL_MESSAGE
       end
