@@ -4,7 +4,7 @@ module EmailValidation
   class Strategy
 
     def verify_email(email)
-      return false, EmailValidation.config.invalid_email_message if BlacklistedEmail.bounce_or_admin?(email)
+      return false, EmailValidation.config.baunced_or_blacklisted_email_message if BlacklistedEmail.bounce_or_admin?(email)
 
       validation_result, msg = ValidationResult.new(true, true), ''
 
