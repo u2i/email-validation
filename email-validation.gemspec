@@ -15,6 +15,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'protected_attributes'
   s.add_dependency 'stoplight', '~> 1.0'
   s.add_dependency 'workflow'
+
+  s.add_development_dependency 'bundler', '~> 1.7'
+  s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'rspec'
