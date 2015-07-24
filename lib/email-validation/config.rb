@@ -4,6 +4,8 @@ module EmailValidation
     attr_accessor :timeout
     attr_accessor :after_error_hook
     attr_accessor :kickbox_api_key
+    attr_accessor :bounced_or_blacklisted_email_message
+    attr_accessor :not_verified_email_message
 
     DEFAULT_TIMEOUT = 60
     DEFAULT_THRESHOLD = 10
@@ -12,6 +14,8 @@ module EmailValidation
       @stoplight_threshold = 10
       @timeout = 60
       @after_error_hook = ->(e) {}
+      @bounced_or_blacklisted_email_message = "Your email address is blocked due to undeliverable emails. Please <small><a href='/contact' title='Customer Service'>contact customer service</a></small> if you need further assistance."
+      @not_verified_email_message = "Your email address could not be verified. Please <small><a href='/contact' title='Customer Service'>contact customer service</a></small> if you need further assistance."
     end
   end
 end

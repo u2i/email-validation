@@ -23,4 +23,5 @@ describe EmailValidation do
       expect(EmailValidation.config.kickbox_api_key).to eq 'key-123-456'
     end
   end
+
 end

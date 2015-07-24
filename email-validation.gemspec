@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'email-validation'
-  s.version     = '3.1.0'
+  s.version     = '3.2.0'
   s.date        = '2014-10-20'
   s.summary     = "Scholastic Trade Ruby gem for email validation"
   s.description = "Scholastic Trade Ruby gem for email validation"
@@ -14,8 +14,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'activerecord','>= 3.0'
   s.add_dependency 'protected_attributes'
   s.add_dependency 'stoplight', '~> 1.0'
-  s.add_dependency 'workflow'
-
   s.add_development_dependency 'bundler', '~> 1.7'
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'sqlite3'

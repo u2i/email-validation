@@ -1,13 +1,9 @@
 require 'active_record'
 require 'protected_attributes'
-require 'workflow'
 
 module EmailValidation
   class BlacklistedEmail < ::ActiveRecord::Base
     self.table_name = 'blacklisted_emails'
-
-    include Workflow
-    workflow_column :origin
 
     attr_accessible :email, :origin
 
@@ -16,19 +12,13 @@ module EmailValidation
 
     before_save :parse_email
 
-    workflow do
-      state :bounce
-      state :unsubscribe
-      state :admin
-    end
-
     ORIGIN_ADMIN = 'admin'
     ORIGIN_BOUNCE = 'bounce'
     ORIGIN_UNSUBSCRIBE = 'unsubscribe'
 
-    def self.exists? email
+    def self.bounce_or_admin? email
       email = BlacklistedEmail.parse_email_address(email.to_s)
-      BlacklistedEmail.where(email: email).exists?
+      BlacklistedEmail.where(email: email, origin: [ORIGIN_BOUNCE, ORIGIN_ADMIN]).exists?
     end
 
     def self.bounced? email

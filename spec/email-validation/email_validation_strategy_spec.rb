@@ -6,21 +6,20 @@ module EmailValidation
       let(:email) { "test@test.com" }
 
       context "when the email is blacklisted" do
-        before { expect(BlacklistedEmail).to receive(:exists?).and_return(true) }
+        before { expect(BlacklistedEmail).to receive(:bounce_or_admin?).and_return(true) }
 
         it "checks for blacklisted emails first" do
           expect_any_instance_of(Validators::KickboxEmailValidator).not_to receive(:validate_email)
 
           status, message = subject.verify_email(email)
 
-          expect(message).to eq EmailValidation::incorrect_email_message(email)
+          expect(message).to eq EmailValidation.config.bounced_or_blacklisted_email_message
           expect(status).to eq false
-
         end
       end
 
       context "when the email is not blacklisted" do
-        before { expect(BlacklistedEmail).to receive(:exists?).and_return(false) }
+        before { expect(BlacklistedEmail).to receive(:bounce_or_admin?).and_return(false) }
 
         it "uses Kickbox after making sure the email is not blacklisted" do
           expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:perform_validation).
@@ -76,14 +75,14 @@ module EmailValidation
       end
 
       context "blacklisting emails" do
-        before { expect(BlacklistedEmail).to receive(:exists?).and_return(false) }
+        before { expect(BlacklistedEmail).to receive(:bounce_or_admin?).and_return(false) }
 
         context "when the email is invalid" do
           it "blacklists the email" do
             expect_any_instance_of(Validators::KickboxEmailValidator).to receive(:validate_email).
                                                                           with(email).
                                                                           and_return(ValidationResult.new(false, true, 'kickbox reason'))
-            
+
             expect(BlacklistedEmail).to receive(:create).with(email: email, origin: 'kickbox reason')
 
             subject.verify_email(email)
