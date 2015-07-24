@@ -1,0 +1,7 @@
+sudo: false
+env:
+  - COVERAGE=1
+language: ruby
+rvm:
+ - 2.2.2
+

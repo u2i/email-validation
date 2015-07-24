@@ -1,5 +1,13 @@
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+if ENV['COVERAGE']
+  require 'simplecov'
+  require 'codeclimate-test-reporter'
+
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    SimpleCov::Formatter::HTMLFormatter,
+    CodeClimate::TestReporter::Formatter,
+  ]
+  SimpleCov.start
+end
 
 require 'email-validation'
 require 'sqlite3'

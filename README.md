@@ -1,3 +1,9 @@
+[![Build Status](https://travis-ci.org/u2i/email-validation.svg)](https://travis-ci.org/u2i/email-validation)
+[![Dependency Status](https://gemnasium.com/u2i/email-validation.svg)](https://gemnasium.com/u2i/email-validation)
+[![Code Climate](https://codeclimate.com/github/u2i/email-validation/badges/gpa.svg)](https://codeclimate.com/github/u2i/email-validation)
+[![Test Coverage](https://codeclimate.com/github/u2i/email-validation/badges/coverage.svg)](https://codeclimate.com/github/u2i/email-validation/coverage)
+[![Gem Version](https://badge.fury.io/rb/email-validation.svg)](http://badge.fury.io/rb/email-validation)
+
 email-validation
 ================
 
